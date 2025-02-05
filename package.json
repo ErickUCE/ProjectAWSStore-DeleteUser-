@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^3.13.0",
+    "axios": "^1.7.9",
     "bcrpyt": "^2.0.0",
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.7",

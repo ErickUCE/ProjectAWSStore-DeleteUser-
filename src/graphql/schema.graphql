@@ -1,0 +1,16 @@
+type Query {
+    _placeholder: String
+}
+
+type Mutation {
+    deleteUser(id: ID!): String
+}
+
+type User {
+    id: ID!
+    first_name: String!
+    last_name: String!
+    identification_number: String!
+    email: String!
+    phone_number: String!
+}
