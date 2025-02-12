@@ -1,7 +1,17 @@
 const express = require('express');
 const User = require('../models/user');
+const authenticateToken = require('../middlewares/authMiddleware'); // ✅ Middleware para verificar token
 
 const router = express.Router();
+
+const axios = require('axios');
+
+// 🔥 Sincronizar eliminación con los otros microservicios
+const instances = [
+    'http://127.0.0.1:5005/sync-delete', // Microservicio de Crear
+                    'http://127.0.0.1:5007/sync-delete',  // Microservicio de Editar
+                    'http://127.0.0.1:5006/sync-delete'  // Microservicio de Leer
+];
 router.use(express.json()); // ✅ Middleware para JSON
 
 // ✅ Verificar si `router` es válido antes de exportarlo
@@ -49,6 +59,34 @@ router.post('/sync-delete', async (req, res) => {
     } catch (error) {
         console.error('❌ Error sincronizando eliminación de user en Delete:', error);
         res.status(500).send({ error: 'Failed to sync user delete' });
+    }
+});
+
+router.delete('/me', authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findByPk(req.user.id);
+        if (!user) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        await user.destroy();
+        console.log(`✅ Usuario con ID ${req.user.id} eliminado correctamente`);
+
+        // 🔄 **Sincronizar con los demás microservicios**
+        for (const instance of instances) {
+            try {
+                await axios.post(instance, { id: req.user.id });
+                console.log(`✅ Usuario eliminado en ${instance}`);
+            } catch (error) {
+                console.error(`❌ Error eliminando en ${instance}:`, error.message);
+            }
+        }
+
+        res.json({ message: 'Usuario eliminado correctamente' });
+
+    } catch (error) {
+        console.error('❌ Error eliminando usuario:', error.message);
+        res.status(500).json({ error: 'Error en el servidor' });
     }
 });
 

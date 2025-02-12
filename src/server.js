@@ -6,8 +6,10 @@ const bodyParser = require('body-parser');
 const sequelize = require('./config/database');
 const resolvers = require('./graphql/resolvers');
 const userRoutes = require('./routes/userRoutes');
+const cors = require('cors');
 
 const app = express();
+app.use(cors()); // 🔥 Habilitar CORS para todas las rutas
 app.use(bodyParser.json());
 app.use(userRoutes);
 
