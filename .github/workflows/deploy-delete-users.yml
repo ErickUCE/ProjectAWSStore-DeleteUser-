@@ -45,7 +45,10 @@ jobs:
           sudo docker stop delete-users-container || true && sudo docker rm delete-users-container || true
 
           # Crear el archivo .env desde el secreto de GitHub
-          echo "${{ secrets.ENV_FILE_DELETE }}" > .env
+          echo -e "${{ secrets.ENV_FILE_DELETE }}" > .env
+
+          # Verificar si el archivo .env se creó correctamente
+          cat .env
 
           # Ejecutar el contenedor con el archivo .env
-          sudo docker run -d -p 5008:5008 -p 4008:4008 --env-file .env --name delete-users-cont
+          sudo docker run -d --name delete-users-container --env-file .env -p 5008:5008 -p 4008:4008 erickuce/delete-users:latest
