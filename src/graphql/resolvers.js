@@ -13,9 +13,9 @@ const resolvers = {
 
                 // ✅ Notificar a los otros microservicios para sincronización
                 const instances = [
-                    'http://127.0.0.1:5005/sync-delete', // Microservicio de Crear
-                    'http://127.0.0.1:5007/sync-delete',  // Microservicio de Editar
-                    'http://127.0.0.1:5006/sync-delete'  // Microservicio de Leer
+                    'http://3.208.235.135:5005/sync-delete', // Microservicio de Crear
+                    'http://98.85.148.204:5007/sync-delete',  // Microservicio de Editar
+                    'http://3.224.31.24:5006/sync-delete'  // Microservicio de Leer
                 ];
 
                 for (const instance of instances) {
