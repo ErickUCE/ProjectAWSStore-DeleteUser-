@@ -13,8 +13,8 @@ const resolvers = {
 
                 // ✅ Notificar a los otros microservicios para sincronización
                 const instances = [
-                    'http://3.208.235.135:5005/sync-delete', // Microservicio de Crear
-                    'http://98.85.148.204:5007/sync-delete',  // Microservicio de Editar
+                    'http://3.209.163.151:5005/sync-delete', // Microservicio de Crear
+                    'http://3.213.150.0:5007/sync-delete',  // Microservicio de Editar
                     'http://3.224.31.24:5006/sync-delete'  // Microservicio de Leer
                 ];
 
